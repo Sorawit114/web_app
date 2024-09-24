@@ -23,7 +23,7 @@
         </select>
         <?php
         if(!isset($_SESSION['id'])){
-            echo "<a style='float: right;' href='login.html'>เข้าสู่ระบบ</a>";
+            echo "<a style='float: right;' href='login.php'>เข้าสู่ระบบ</a>";
         }else{
             $user = $_SESSION['username'];
             echo "<a style='float: right;' href='logout.php'> ออกจากระบบ </a>";
