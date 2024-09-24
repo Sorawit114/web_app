@@ -20,17 +20,18 @@
         $user = $_POST['user'];
         $pass = $_POST['password'];
         if (!isset($_SESSION['id']) && $user == "admin" && $pass == "ad1234"){
-            echo "ยินดีต้อนรับคุณ ADMIN";
             $_SESSION["username"] = "admin";
             $_SESSION["role"] = "a";
-            $_SESSION["id"] = session_id();}
+            $_SESSION["id"] = session_id();
+            header("location:index.php");}
         elseif (!isset($_SESSION['id']) && $user == "member" && $pass == "mem1234"){
-            echo "ยินดีต้อนรับคุณ MEMBER";
             $_SESSION["username"] = "member";
             $_SESSION["role"] = "m";
-            $_SESSION["id"] = session_id();}
+            $_SESSION["id"] = session_id();
+            header("location:index.php");}
         else{
-            echo "ชื่อบัญชีหรือรหัสผ่านไม่ถูกต้อง";}
+            $_SESSION["error"] = "1";}
+            header("location:login.php");
         ?> 
             <br>
             <div>
