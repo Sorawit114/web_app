@@ -14,7 +14,6 @@
     <div class="container-fluid">
         <?php
         session_start();
-        $_SESSION["error"] = "0";
         if (isset($_SESSION['id'])) {
             header("location:index.php");
             die();
@@ -23,7 +22,7 @@
         <h1 style="text-align: center;">Webboard Easy</h1>
         <nav class="navbar  navbar-expand-lg" style="background-color: #d3d3d3;">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#"> <i class="bi bi-house-door-fill"></i> Home </a>
+                <a class="navbar-brand" href="index.php"> <i class="bi bi-house-door-fill"></i> Home </a>
                 <ul class="navbar-nav">
 
                     <?php
@@ -49,15 +48,16 @@
         </nav>
 
         <?php
-        if (isset($_SESSION['error']) == 1) {?>
+        if (isset($_SESSION['error'])) { ?>
             <div class="mt-3">
-            <div class="alert alert-danger ms-auto me-auto" style="width: 500px;">
-                <div class="card-body">
-                    <label> ชื่อบัญชีหรือรหัสผ่านไม่ถูกต้อง </label>
+                <div class="alert alert-danger ms-auto me-auto" style="width: 500px;">
+                    <div class="card-body">
+                        <label> ชื่อบัญชีหรือรหัสผ่านไม่ถูกต้อง </label>
+                    </div>
                 </div>
             </div>
-        </div>
-        <?php } ?>
+        <?php unset($_SESSION['error']);
+        } ?>
 
         <div class="mt-3">
             <div class="card ms-auto me-auto" style="width: 500px;">
@@ -83,7 +83,7 @@
 
         <div class="container mt-3" align="center">
             ถ้ายังไม่ได้เป็นสมาชิก
-            <a href="register.html">กรุณาสมัครสมาชิก</a>
+            <a href="register.php">กรุณาสมัครสมาชิก</a>
         </div>
 
     </div>
