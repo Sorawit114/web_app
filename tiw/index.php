@@ -21,7 +21,7 @@
         <h1 style="text-align: center;">Webboard Easy</h1>
         <nav class="navbar navbar-expand-lg" style="background-color: #d3d3d3;">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#"> <i class="bi bi-house-door-fill"></i> Home </a>
+                <a class="navbar-brand" href="index.php"> <i class="bi bi-house-door-fill"></i> Home </a>
                 <ul class="navbar-nav">
 
                     <?php
@@ -52,25 +52,32 @@
                 --ทั้งหมด--
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item">ทั้งหมด</a></li>
-                <li><a class="dropdown-item">เรื่องเรียน</a></li>
-                <li><a class="dropdown-item">เรื่องทั่วไป</a></li>
+                <?php
+                $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8", "root", "");
+                $sql = "SELECT * FROM category";
+                foreach ($conn->query($sql) as $row) {
+                    echo "<li><a class= dropdown-item href = #> $row[name] </a></li>";
+                }
+                $conn = null;
+                ?>
             </ul>
+
             <?php
             if (isset($_SESSION['id'])) {
-                echo "<button class='btn btn-success' href='newpost.php' style='float:right;'> + สร้างกระทู้ใหม่</button>";
+                echo "<button type='button' class='btn btn-success' style='float:right;'><a href = 'newpost.php' class ='text-white link-underline link-underline-opacity-0'> + สร้างกระทู้ใหม่</a></button>";
             }
             ?>
+
         </div>
         <table class="table table-striped mt-3">
             <?php
-            for ($i = 1; $i <= 10; $i++) {
-                if (isset($_SESSION['id']) && $_SESSION["role"] == "a") {
-                    echo "<tr><td><a href= post.php?id=$i style='margin-right:10px' class='link-underline link-underline-opacity-0'>กระทู้ที่ $i </a> <button class='btn btn-danger ' href = delete.php?id=$i style='float:right;'><i class=' bi bi-trash' ></i></button></td></tr>";
-                } else {
-                    echo "<tr><td><a href=post.php?id=$i style='margin-right:10px' class='link-underline link-underline-opacity-0'>กระทู้ที่ $i </a></td></tr>";
-                }
+            $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8", "root", "");
+            $sql = "SELECT t3.name,t1.title,t1.id,t2.login,t1.post_date FROM post as t1 INNER JOIN user as t2 on (t1.user_id = t2.id) INNER JOIN category as t3 on (t1.cat_id = t3.id) ORDER BY t1.post_date DESC";
+            $result = $conn->query($sql);
+            while ($row = $result->fetch()) {
+                echo "<tr><td>[ $row[0] ] <a href = post.php?id = $row[2] style = text-decoration:none>$row[1]</a><br>$row[3] - $row[4]</td></tr>";
             }
+            $conn = null;
             ?>
         </table>
 

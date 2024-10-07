@@ -66,7 +66,7 @@
                     <div class="card-body">
                         <div class="mt-3 form-group">
                             <label for="login" class="form-label">Login:</label>
-                            <input id="login" name="user" class="form-control">
+                            <input id="login" name="login" class="form-control">
                         </div>
                         <div class="mt-3 form-group">
                             <label for="password" class="form-lable">Password:</label>
