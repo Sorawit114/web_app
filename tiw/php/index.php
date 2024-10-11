@@ -74,13 +74,17 @@
             $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8", "root", "");
             $sql = "SELECT t3.name,t1.title,t1.id,t2.login,t1.post_date FROM post as t1 INNER JOIN user as t2 on (t1.user_id = t2.id) INNER JOIN category as t3 on (t1.cat_id = t3.id) ORDER BY t1.post_date DESC";
             $result = $conn->query($sql);
+
             while ($row = $result->fetch()) {
-                echo "<tr><td>[ $row[0] ] <a href = post.php?id = $row[2] style = text-decoration:none>$row[1]</a><br>$row[3] - $row[4]</td></tr>";
+                echo "<tr><td>[ $row[0] ] <a href ='post.php?id=$row[2]' style = text-decoration:none>$row[1]</a><br>$row[3] - $row[4]";
+                if(isset($_SESSION['id']) && $_SESSION['role'] == 'a'){
+                    echo "<div class = 'me-2 align-self-center' style='float:right;'><a href = delete.php?id=$row[2] class = 'btn btn-danger btn-sm'><i class='bi bi-trash'></i></a></div>";
+                }
+                echo "</td></tr>";
             }
             $conn = null;
             ?>
         </table>
-
     </div>
 </body>
 

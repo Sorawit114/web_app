@@ -48,6 +48,18 @@
         </nav>
 
         <?php
+        if (isset($_SESSION['login'])) { ?>
+            <div class="mt-3">
+                <div class="alert alert-danger ms-auto me-auto" style="width: 500px;">
+                    <div class="card-body">
+                        <label> กรุณาล็อคอินก่อนแสดงความเห็น </label>
+                    </div>
+                </div>
+            </div>
+        <?php unset($_SESSION['login']);
+        } ?>
+
+        <?php
         if (isset($_SESSION['error'])) { ?>
             <div class="mt-3">
                 <div class="alert alert-danger ms-auto me-auto" style="width: 500px;">
