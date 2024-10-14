@@ -18,6 +18,7 @@
             header("location:index.php");
             die();
         }
+        $_SESSION['show'] = "error";
         ?>
         <h1 style="text-align: center;">Webboard Easy</h1>
         <nav class="navbar  navbar-expand-lg" style="background-color: #d3d3d3;">
@@ -81,17 +82,38 @@
                             <input id="login" name="login" class="form-control">
                         </div>
                         <div class="mt-3 form-group">
-                            <label for="password" class="form-lable">Password:</label>
-                            <input id="password" type="password" name="password" class="form-control">
+                            <label for="password" class="form-label">Password:</label>
+                            <div class="input-group">
+                                <input id="password" type="password" name="password" class="form-control">
+                                <button type="button" class="btn btn-outline-dark bg-secondary" onclick="show()">
+                                    <i id="password-icon" class="bi bi-eye-fill"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="mt-3" align="center">
                             <input type="submit" value="Login" class="btn btn-success">
-                            <input type="submit" value="Reset" class="btn btn-danger">
                         </div>
                     </div>
                 </form>
             </div>
         </div>
+
+        <script>
+            function show() {
+                const passwordField = document.getElementById('password');
+                const passwordIcon = document.getElementById('password-icon');
+
+                if (passwordField.type == 'password') {
+                    passwordField.type = 'text';
+                    passwordIcon.classList.remove('bi-eye-fill');
+                    passwordIcon.classList.add('bi-eye-slash-fill');
+                } else {
+                    passwordField.type = 'password';
+                    passwordIcon.classList.remove('bi-eye-slash-fill');
+                    passwordIcon.classList.add('bi-eye-fill');
+                }
+            }
+        </script>
 
         <div class="container mt-3" align="center">
             ถ้ายังไม่ได้เป็นสมาชิก

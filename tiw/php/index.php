@@ -76,11 +76,21 @@
             $result = $conn->query($sql);
 
             while ($row = $result->fetch()) {
-                echo "<tr><td>[ $row[0] ] <a href ='post.php?id=$row[2]' style = text-decoration:none>$row[1]</a><br>$row[3] - $row[4]";
-                if(isset($_SESSION['id']) && $_SESSION['role'] == 'a'){
-                    echo "<div class = 'me-2 align-self-center' style='float:right;'><a href = delete.php?id=$row[2] class = 'btn btn-danger btn-sm'><i class='bi bi-trash'></i></a></div>";
+                echo "<tr><td>";
+                if (isset($_SESSION['id']) && $_SESSION['role'] == 'a') {
+                    echo "<button onclick='myFunction($row[2])' type='button' class='btn btn-danger me-1 mt-1 align-self-center' style='float:right;'><a class = 'text-white'><i class='bi bi-trash'></i></a></button>";
                 }
+                echo "[ $row[0] ] <a href ='post.php?id=$row[2]' style = text-decoration:none>$row[1]</a><br>$row[3] - $row[4]";
                 echo "</td></tr>";
+            ?>
+                <script>
+                    function myFunction(post) {
+                        if (confirm("ต้องการลบจริงหรือไม่")) {
+                            window.location.href = `delete.php?id=${post}`;
+                        }
+                    }
+                </script>
+            <?php
             }
             $conn = null;
             ?>
