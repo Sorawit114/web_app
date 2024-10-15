@@ -13,7 +13,7 @@
 <body>
     <?php
     session_start();
-    if (!isset($_SESSION['id'])) {
+    if (isset($_SESSION['id'])) {
         header("location:index.php");
         die();
     }
@@ -82,28 +82,22 @@
                         <div class="row mt-3">
                             <label for="password2" class="col-lg-3 col-form-label">ใส่รหัสผ่านซ้ำ :</label>
                             <div class="col-lg-9">
-                                <input id="password2" name="password2" class="form-control" type="password" required>
+                                <input onblur="check()" id="password2" name="password2" class="form-control" type="password" required>
                             </div>
                         </div>
 
                         <script>
-                            var passwordField = document.getElementById('password');
-                            var password2Field = document.getElementById('password2');
+                            function check() {
+                                let passwordField = document.getElementById('password').value;
+                                let password2Field = document.getElementById('password2').value;
 
-                            passwordField.addEventListener('input', validatePasswords);
-                            password2Field.addEventListener('input', validatePasswords);
-
-                            function validatePasswords() {
-                                var password = passwordField.value;
-                                var password2 = password2Field.value;
-                                if (password.length == password2.length) {
-                                    if (password != password2) {
-                                        alert('รหัสผ่านทั้งสองช่องไม่ตรงกัน');
-                                    }
+                                if (passwordField != password2Field) {
+                                    alert('รหัสผ่านทั้งสองช่องไม่ตรงกัน');
+                                    password.value = "";
+                                    password2.value = "";
                                 }
                             }
                         </script>
-
 
                         <div class="row mt-3">
                             <label for="name" class="col-lg-3 col-form-lable"> ชื่อ-นามสกุล :</label>

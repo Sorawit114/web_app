@@ -85,8 +85,8 @@
                             <label for="password" class="form-label">Password:</label>
                             <div class="input-group">
                                 <input id="password" type="password" name="password" class="form-control">
-                                <button type="button" class="btn btn-outline-dark bg-secondary" onclick="show()">
-                                    <i id="password-icon" class="bi bi-eye-fill"></i>
+                                <button type="button" class="input-group-text" onclick="show()">
+                                    <i id="password-icon" class="bi bi-eye-fill "></i>
                                 </button>
                             </div>
                         </div>
@@ -100,8 +100,8 @@
 
         <script>
             function show() {
-                const passwordField = document.getElementById('password');
-                const passwordIcon = document.getElementById('password-icon');
+                let passwordField = document.getElementById('password');
+                let passwordIcon = document.getElementById('password-icon');
 
                 if (passwordField.type == 'password') {
                     passwordField.type = 'text';

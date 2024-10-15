@@ -49,14 +49,24 @@
         <div class="dropdown mt-3">
             <label for="">หมวดหมู่</label>
             <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                --ทั้งหมด--
+                <?php
+                if (!isset($_GET['id'])) {
+                    echo "--ทั้งหมด--";
+                } elseif ($_GET['id'] == 1) {
+                    echo "เรื่องทั่วไป";
+                } elseif ($_GET['id'] == 2) {
+                    echo "เรื่องเรียน";
+                } elseif ($_GET['id'] == 3) {
+                    echo "เรื่องกีฬา";
+                }
+                ?>
             </button>
             <ul class="dropdown-menu">
                 <?php
                 $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8", "root", "");
                 $sql = "SELECT * FROM category";
                 foreach ($conn->query($sql) as $row) {
-                    echo "<li><a class= dropdown-item href = #> $row[name] </a></li>";
+                    echo "<li><a class= dropdown-item href = index.php?id=$row[id]> $row[name] </a></li>";
                 }
                 $conn = null;
                 ?>

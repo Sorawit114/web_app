@@ -5,7 +5,6 @@ $passwordcheck2 = $_POST['password2'];
 if ($passwordcheck1 != $passwordcheck2) {
 ?>
     <script>
-        alert("รหัสผ่านทั้งสองช่องไม่ตรงกัน");
         window.location.href = "register.php";
     </script>
 <?php
