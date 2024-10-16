@@ -66,6 +66,7 @@
                 $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8", "root", "");
                 $sql = "SELECT * FROM category";
                 foreach ($conn->query($sql) as $row) {
+                    echo "<li>--ทั้งหมด--</li>";
                     echo "<li><a class= dropdown-item href = index.php?id=$row[id]> $row[name] </a></li>";
                 }
                 $conn = null;
