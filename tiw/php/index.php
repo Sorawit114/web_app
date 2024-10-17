@@ -36,6 +36,8 @@
                         echo "<i class='bi bi-person-lines-fill'></i> $user";
                         echo "</a>";
                         echo "<ul class='dropdown-menu'>";
+                        echo "<li><a class='dropdown-item' href=''><i class='bi bi-power'></i>จัดการหมวดหมู่</a></li>";
+                        echo "<li><a class='dropdown-item' href=''><i class='bi bi-power'></i>จัดการผู้ใช้ระบบ</a></li>";
                         echo "<li><a class='dropdown-item' href='logout.php'><i class='bi bi-power'></i>ออกจากระบบ</a></li>";
                         echo "</ul>";
                         echo "</li>";
