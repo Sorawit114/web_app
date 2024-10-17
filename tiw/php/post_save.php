@@ -11,4 +11,3 @@ $sql = "INSERT INTO comment (content, post_date, user_id, post_id) VALUES ('$com
 $conn->exec($sql);
 
 header("location: post.php?id=$post_id");
-?>
