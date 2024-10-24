@@ -19,83 +19,85 @@
         die();
     }
     ?>
-    <h1 style="text-align: center;">Webboard KAKao</h1>
-    <nav class="navbar navbar-expand-lg" style="background-color: #d3d3d3;">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.php"> <i class="bi bi-house-door-fill"></i> Home </a>
-            <ul class="navbar-nav">
+    <div class="container">
+        <h1 style="text-align: center;">Webboard KAKao</h1>
+        <nav class="navbar navbar-expand-lg" style="background-color: #d3d3d3;">
+            <div class="container">
+                <a class="navbar-brand" href="index.php"> <i class="bi bi-house-door-fill"></i> Home </a>
+                <ul class="navbar-nav">
 
-                <?php
-                if (!isset($_SESSION['id'])) {
-                    echo "<li class= 'nav-item'>";
-                    echo "<a class='nav-link'  href = 'login.php' > <i class='bi bi-pencil-square'></i> เข้าสู่ระบบ</a>";
-                    echo "</li>";
-                } else {
-                    $user = $_SESSION['username'];
-                    echo "<li class='nav-item dropdown'>";
-                    echo "<a class='btn btn-outline-secondary btn-sm' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>";
-                    echo "<i class='bi bi-person-lines-fill'></i> $user";
-                    echo "</a>";
-                    echo "<ul class='dropdown-menu'>";
-                    echo "<li><a class='dropdown-item' href='logout.php'><i class='bi bi-power'></i>ออกจากระบบ</a></li>";
-                    echo "</ul>";
-                    echo "</li>";
-                }
-                ?>
+                    <?php
+                    if (!isset($_SESSION['id'])) {
+                        echo "<li class= 'nav-item'>";
+                        echo "<a class='nav-link'  href = 'login.php' > <i class='bi bi-pencil-square'></i> เข้าสู่ระบบ</a>";
+                        echo "</li>";
+                    } else {
+                        $user = $_SESSION['username'];
+                        echo "<li class='nav-item dropdown'>";
+                        echo "<a class='btn btn-outline-secondary btn-sm' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>";
+                        echo "<i class='bi bi-person-lines-fill'></i> $user";
+                        echo "</a>";
+                        echo "<ul class='dropdown-menu'>";
+                        echo "<li><a class='dropdown-item' href='logout.php'><i class='bi bi-power'></i>ออกจากระบบ</a></li>";
+                        echo "</ul>";
+                        echo "</li>";
+                    }
+                    ?>
 
-            </ul>
-        </div>
-    </nav>
+                </ul>
+            </div>
+        </nav>
 
-    <?php
-    $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8", "root", "");
-    $sql = "SELECT t1.title, t1.content, t2.login, t1.post_date FROM post as t1 INNER JOIN user as t2 on (t1.user_id = t2.id) where t1.id = $_GET[id]";
-    $result = $conn->query($sql);
+        <?php
+        $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8", "root", "");
+        $sql = "SELECT t1.title, t1.content, t2.login, t1.post_date FROM post as t1 INNER JOIN user as t2 on (t1.user_id = t2.id) where t1.id = $_GET[id]";
+        $result = $conn->query($sql);
 
-    while ($row = $result->fetch()) {
-        echo "<div class = 'card border-primary mt-3 col-sm-10 col-md-8 col-lg-4 mx-auto'>";
-        echo "<div class = 'card-header bg-primary text-white'> $row[0] </div>";
-        echo "<div class = 'card-body'> $row[1]";
-        echo "<div class = 'mt-2'> $row[2] - $row[3]</div></div></div>";
-    }
-    $conn = null;
-    ?>
+        while ($row = $result->fetch()) {
+            echo "<div class = 'card border-primary mt-3 col-sm-10 col-md-8 col-lg-4 mx-auto'>";
+            echo "<div class = 'card-header bg-primary text-white'> $row[0] </div>";
+            echo "<div class = 'card-body'> $row[1]";
+            echo "<div class = 'mt-2'> $row[2] - $row[3]</div></div></div>";
+        }
+        $conn = null;
+        ?>
 
-    <?php
-    $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8", "root", "");
-    $sql = "SELECT t1.id, t1.content, t2.login, t1.post_date FROM comment as t1 INNER JOIN user as t2 on (t1.user_id = t2.id) where t1.post_id = $_GET[id]";
-    $result = $conn->query($sql);
-    $A = 1;
-    while ($row = $result->fetch()) {
-        echo "<div class = 'card border-info mt-3 col-sm-10 col-md-8 col-lg-4 mx-auto'>";
-        echo "<div class = 'card-header bg-info text-white'> ความเห็นที่ $A </div>";
-        echo "<div class = 'card-body'> $row[1]";
-        echo "<div class = 'mt-2'> $row[2] - $row[3]</div></div></div>";
-        $A++;
-    }
-    $conn = null;
-    ?>
+        <?php
+        $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8", "root", "");
+        $sql = "SELECT t1.id, t1.content, t2.login, t1.post_date FROM comment as t1 INNER JOIN user as t2 on (t1.user_id = t2.id) where t1.post_id = $_GET[id]";
+        $result = $conn->query($sql);
+        $A = 1;
+        while ($row = $result->fetch()) {
+            echo "<div class = 'card border-info mt-3 col-sm-10 col-md-8 col-lg-4 mx-auto'>";
+            echo "<div class = 'card-header bg-info text-white'> ความเห็นที่ $A </div>";
+            echo "<div class = 'card-body'> $row[1]";
+            echo "<div class = 'mt-2'> $row[2] - $row[3]</div></div></div>";
+            $A++;
+        }
+        $conn = null;
+        ?>
 
-    <div class="card text-dark bg-white-bordersuccess col-sm-10 col-md-8 col-lg-4 mx-auto mt-3">
-        <div class="card-header bg-success text-white"> แสดงความเห็น </div>
-        <div class="card-body">
-            <form action="post_save.php" method="post">
-                <input type="hidden" name="post_id" value="<?= $_GET['id']; ?>">
-                <div class="row mb-3 justify-content-center">
-                    <div class="col-lg-10">
-                        <textarea name="comment" class="form-control" row="8"></textarea>
+        <div class="card text-dark bg-white-bordersuccess col-sm-10 col-md-8 col-lg-4 mx-auto mt-3">
+            <div class="card-header bg-success text-white"> แสดงความเห็น </div>
+            <div class="card-body">
+                <form action="post_save.php" method="post">
+                    <input type="hidden" name="post_id" value="<?= $_GET['id']; ?>">
+                    <div class="row mb-3 justify-content-center">
+                        <div class="col-lg-10">
+                            <textarea name="comment" class="form-control" row="8"></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <center>
-                            <button type="submit" class="btn btn-success btn-sm text-white">
-                                <i class="bi bi-box-arrow-up-right me-1">ส่งข้อความ</i>
-                            </button>
-                        </center>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <center>
+                                <button type="submit" class="btn btn-success btn-sm text-white">
+                                    <i class="bi bi-box-arrow-up-right me-1">ส่งข้อความ</i>
+                                </button>
+                            </center>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 

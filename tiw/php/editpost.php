@@ -14,10 +14,10 @@
     <?php
     session_start();
     ?>
-    <div class="container-fluid">
+    <div class="container">
         <h1 style="text-align: center;">Webboard Easy</h1>
         <nav class="navbar navbar-expand-lg" style="background-color: #d3d3d3;">
-            <div class="container-fluid">
+            <div class="container">
                 <a class="navbar-brand" href="index.php"> <i class="bi bi-house-door-fill"></i> Home </a>
                 <ul class="navbar-nav">
 

@@ -21,118 +21,120 @@
     <center>
         <h1>สมัครสมาชิก</h1>
     </center>
-    <nav class="navbar navbar-expand-lg" style="background-color: #d3d3d3;">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.php"> <i class="bi bi-house-door-fill"></i> Home </a>
-            <ul class="navbar-nav">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg" style="background-color: #d3d3d3;">
+            <div class="container">
+                <a class="navbar-brand" href="index.php"> <i class="bi bi-house-door-fill"></i> Home </a>
+                <ul class="navbar-nav">
 
-                <?php
-                if (!isset($_SESSION['id'])) {
-                    echo "<li class= 'nav-item'>";
-                    echo "<a class='nav-link'  href = 'login.php' > <i class='bi bi-pencil-square'></i> เข้าสู่ระบบ</a>";
-                    echo "</li>";
-                } else {
-                    $user = $_SESSION['username'];
-                    echo "<li class='nav-item dropdown'>";
-                    echo "<a class='btn btn-outline-secondary btn-sm' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>";
-                    echo "<i class='bi bi-person-lines-fill'></i> $user";
-                    echo "</a>";
-                    echo "<ul class='dropdown-menu'>";
-                    echo "<li><a class='dropdown-item' href='logout.php'><i class='bi bi-power'></i>ออกจากระบบ</a></li>";
-                    echo "</ul>";
-                    echo "</li>";
-                }
-                ?>
+                    <?php
+                    if (!isset($_SESSION['id'])) {
+                        echo "<li class= 'nav-item'>";
+                        echo "<a class='nav-link'  href = 'login.php' > <i class='bi bi-pencil-square'></i> เข้าสู่ระบบ</a>";
+                        echo "</li>";
+                    } else {
+                        $user = $_SESSION['username'];
+                        echo "<li class='nav-item dropdown'>";
+                        echo "<a class='btn btn-outline-secondary btn-sm' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>";
+                        echo "<i class='bi bi-person-lines-fill'></i> $user";
+                        echo "</a>";
+                        echo "<ul class='dropdown-menu'>";
+                        echo "<li><a class='dropdown-item' href='logout.php'><i class='bi bi-power'></i>ออกจากระบบ</a></li>";
+                        echo "</ul>";
+                        echo "</li>";
+                    }
+                    ?>
 
-            </ul>
-        </div>
-    </nav>
-    <?php
-    if (isset($_SESSION['add_login'])) {
-        if ($_SESSION['add_login'] == 'error') {
-            echo "<div class='alert alert-danger col-sm-10 col-md-8 col-lg-4 mx-auto'>ชื่อบัญชีซ้ำหรือฐานข้อมูลมีปัญหา</div>";
-        } else {
-            echo "<div class = 'alert alert-success col-sm-10 col-md-8 col-lg-4 mx-auto'> เพิ่มบัญชีเรียบร้อย </div>";
+                </ul>
+            </div>
+        </nav>
+        <?php
+        if (isset($_SESSION['add_login'])) {
+            if ($_SESSION['add_login'] == 'error') {
+                echo "<div class='alert alert-danger col-sm-10 col-md-8 col-lg-4 mx-auto'>ชื่อบัญชีซ้ำหรือฐานข้อมูลมีปัญหา</div>";
+            } else {
+                echo "<div class = 'alert alert-success col-sm-10 col-md-8 col-lg-4 mx-auto'> เพิ่มบัญชีเรียบร้อย </div>";
+            }
+            unset($_SESSION['add_login']);
         }
-        unset($_SESSION['add_login']);
-    }
-    ?>
-    <div class="container-fluid">
-        <div class="mt-3">
-            <div class="card border-primary col-sm-10 col-md-8 col-lg-4 mx-auto">
-                <form action="register_save.php" method="post">
+        ?>
+        <div class="container-fluid">
+            <div class="mt-3">
+                <div class="card border-primary col-sm-10 col-md-8 col-lg-4 mx-auto">
+                    <form action="register_save.php" method="post">
 
-                    <p class="card-header bg-primary text-white">เข้าสู่ระบบ</p>
-                    <div class="card-body">
+                        <p class="card-header bg-primary text-white">เข้าสู่ระบบ</p>
+                        <div class="card-body">
 
-                        <div class="row mt-3">
-                            <label for="login" class="col-lg-3 col-form-lable"> ชื่อบัญชี :</label>
-                            <div class="col-lg-9">
-                                <input id="login" name="login" class="form-control" required>
+                            <div class="row mt-3">
+                                <label for="login" class="col-lg-3 col-form-lable"> ชื่อบัญชี :</label>
+                                <div class="col-lg-9">
+                                    <input id="login" name="login" class="form-control" required>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row mt-3">
-                            <label for="password" class="col-lg-3 col-form-label">รหัสผ่าน :</label>
-                            <div class="col-lg-9">
-                                <input id="password" name="password" class="form-control" type="password" required>
+                            <div class="row mt-3">
+                                <label for="password" class="col-lg-3 col-form-label">รหัสผ่าน :</label>
+                                <div class="col-lg-9">
+                                    <input id="password" name="password" class="form-control" type="password" required>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row mt-3">
-                            <label for="password2" class="col-lg-3 col-form-label">ใส่รหัสผ่านซ้ำ :</label>
-                            <div class="col-lg-9">
-                                <input onblur="check()" id="password2" name="password2" class="form-control" type="password" required>
+                            <div class="row mt-3">
+                                <label for="password2" class="col-lg-3 col-form-label">ใส่รหัสผ่านซ้ำ :</label>
+                                <div class="col-lg-9">
+                                    <input onblur="check()" id="password2" name="password2" class="form-control" type="password" required>
+                                </div>
                             </div>
-                        </div>
 
-                        <script>
-                            function check() {
-                                let passwordField = document.getElementById('password').value;
-                                let password2Field = document.getElementById('password2').value;
+                            <script>
+                                function check() {
+                                    let passwordField = document.getElementById('password').value;
+                                    let password2Field = document.getElementById('password2').value;
 
-                                if (passwordField != password2Field) {
-                                    alert('รหัสผ่านทั้งสองช่องไม่ตรงกัน');
-                                    password.value = "";
-                                    password2.value = "";
+                                    if (passwordField != password2Field) {
+                                        alert('รหัสผ่านทั้งสองช่องไม่ตรงกัน');
+                                        password.value = "";
+                                        password2.value = "";
+                                    }
                                 }
-                            }
-                        </script>
+                            </script>
 
-                        <div class="row mt-3">
-                            <label for="name" class="col-lg-3 col-form-lable"> ชื่อ-นามสกุล :</label>
-                            <div class="col-lg-9">
-                                <input id="name" name="name" class="form-control" required>
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <label class="col-lg-3 col-form-lable"> เพศ : </label>
-                            <div class="col-lg-9">
+                            <div class="row mt-3">
+                                <label for="name" class="col-lg-3 col-form-lable"> ชื่อ-นามสกุล :</label>
                                 <div class="col-lg-9">
-                                    <input name="gender" type="radio" value="m" required class="from-check-input"> ชาย
-                                </div>
-                                <div class="col-lg-9">
-                                    <input name="gender" type="radio" value="f" required class="from-check-input"> หญิง
-                                </div>
-                                <div class="col-lg-9">
-                                    <input name="gender" type="radio" value="o" required class="from-check-input"> อื่นๆ
+                                    <input id="name" name="name" class="form-control" required>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row mt-3">
-                            <label for="email" class="col-lg-3 col-form-lable"> อีเมล :</label>
-                            <div class="col-lg-9">
-                                <input id="email" name="email" type="email" class="form-control" required>
+                            <div class="row mt-3">
+                                <label class="col-lg-3 col-form-lable"> เพศ : </label>
+                                <div class="col-lg-9">
+                                    <div class="col-lg-9">
+                                        <input name="gender" type="radio" value="m" required class="from-check-input"> ชาย
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input name="gender" type="radio" value="f" required class="from-check-input"> หญิง
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input name="gender" type="radio" value="o" required class="from-check-input"> อื่นๆ
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <label for="email" class="col-lg-3 col-form-lable"> อีเมล :</label>
+                                <div class="col-lg-9">
+                                    <input id="email" name="email" type="email" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="mt-3">
+                                <button class="btn btn-primary" required><i class="bi bi-box-arrow-in-down"></i> สมัครสมาชิก </button>
                             </div>
                         </div>
-
-                        <div class="mt-3">
-                            <button class="btn btn-primary" required><i class="bi bi-box-arrow-in-down"></i> สมัครสมาชิก </button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
