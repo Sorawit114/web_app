@@ -13,7 +13,7 @@
 <body>
     <?php
     session_start();
-    if (!isset($_SESSION['id'])) {
+    if (!($_SESSION['role'] == "a")) {
         header("location:index.php");
         die();
     }
@@ -48,30 +48,47 @@
                 </ul>
             </div>
         </nav>
+        <?php
+        if (isset($_SESSION['category'])) {
+            if($_SESSION['category'] == 'edit_success'){
+                echo "<div class='alert alert-success mt-3 col-sm-10 col-md-8 col-lg-7 mx-auto'>แก้ไขหมวดหมู่เรียบร้อยแล้ว</div>";
+                unset($_SESSION['category']);
+            }
+            elseif($_SESSION['category'] == 'delete_success'){
+                echo "<div class='alert alert-success mt-3 col-sm-10 col-md-8 col-lg-7 mx-auto'>ลบหมวดหมู่เรียบร้อยแล้ว</div>";
+                unset($_SESSION['category']);
+            }
+        }
+        ?>
 
         <div class='mt-3 col-sm-10 col-md-8 col-lg-7 mx-auto'>
             <table class="table table-striped mt-3">
                 <tr>
                     <td style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="width: 30%; text-align: left;"><b>ลำดับ</b></span>
+                        <span style="width: 30%; text-align: left;">
+                            <center><b>ลำดับ</b></center>
+                        </span>
                         <span style="width: 50%; text-align: center;"><b>ชื่อหมวดหมู่</b></span>
-                        <span style="width: 30%; text-align: right;"><b>จัดการ</b></span>
+                        <span style="width: 30%; text-align: right;">
+                            <center><b>จัดการ</b></center>
+                        </span>
                     </td>
                 </tr>
                 <?php
                 $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8", "root", "");
                 $sql = "SELECT * FROM category";
                 $result = $conn->query($sql);
-
+                $id = 1;
                 while ($row = $result->fetch()) {
                     echo "<tr><td style='display: flex; justify-content: space-between; align-items: center;'>";
-                    echo "<span style='width: 30%; text-align: left;'>" . $row['id'] . "</span>";
+                    echo "<span style='width: 30%; text-align: left;'>" . "<center>" . $id . "</center>" . "</span>";
                     echo "<span style='width: 50%; text-align: center;'>" . $row['name'] . "</span>";
                     echo "<span style='width: 30%; text-align: right;'>";
-                    echo "<a href='editcategory.php?id=" . $row['id'] . "' class='btn btn-warning btn-sm'><i class='bi bi-pencil-fill'></i></a> ";
-                    echo "<button onclick='delete_category(" . $row['id'] . ")' class='btn btn-danger btn-sm'><i class='bi bi-trash'></i></button>";
+                    echo "<center><a href='#' class='btn btn-warning btn-sm me-2' data-bs-toggle='modal' data-bs-target='#showForm' data-id='" . $row['id'] . "' data-name='" . $row['name'] . "'><i class='bi bi-pencil-fill'></i></a>";
+                    echo "<button onclick='delete_category(" . $row['id'] . ")' class='btn btn-danger btn-sm'><i class='bi bi-trash'></i></button></center>";
                     echo "</span>";
                     echo "</td></tr>";
+                    $id++;
                 }
                 $conn = null;
                 ?>
@@ -85,6 +102,50 @@
             </div>
         </div>
 
+        <div class="modal fade" id="showForm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">แก้ไขหมวดหมู่</h5>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form action="editcategory.php" method="post">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>ชื่อหมวดหมู่:</label>
+                                <input name="name-category" type="text" class="form-control">
+                                <input name="id-category" type="text" class="form-control d-none">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const showForm = document.getElementById('showForm');
+            showForm.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget;
+                const categoryId = button.getAttribute('data-id');
+                const categoryName = button.getAttribute('data-name');
+
+                const modalInput = showForm.querySelectorAll('.modal-body input');
+                modalInput[0].value = categoryName;
+                modalInput[1].value = categoryId;
+            });
+        </script>
+
+        <script>
+            function delete_category(category) {
+                if (confirm("ต้องการลบจริงหรือไม่")) {
+                    window.location.href = `deletecategory.php?id=${category}`;
+                }
+            }
+        </script>
 
     </div>
 
