@@ -36,9 +36,9 @@
                         echo "<i class='bi bi-person-lines-fill'></i> $user";
                         echo "</a>";
                         echo "<ul class='dropdown-menu'>";
-                        if (isset($_SESSION['id']) && $_SESSION['role'] == 'a'){
+                        if (isset($_SESSION['id']) && $_SESSION['role'] == 'a') {
                             echo "<li><a class='dropdown-item' href='category.php'><i class='bi bi-bookmarks'></i>จัดการหมวดหมู่</a></li>";
-                            echo "<li><a class='dropdown-item' href=''><i class='bi bi-person-check'></i>จัดการผู้ใช้งาน</a></li>";
+                            echo "<li><a class='dropdown-item' href='user.php'><i class='bi bi-person-check'></i>จัดการผู้ใช้งาน</a></li>";
                         }
                         echo "<li><a class='dropdown-item' href='logout.php'><i class='bi bi-power'></i>ออกจากระบบ</a></li>";
                         echo "</ul>";
@@ -87,7 +87,9 @@
 
             <?php
             if (isset($_SESSION['id'])) {
-                echo "<button type='button' class='btn btn-success' style='float:right;'><a href = 'newpost.php' class ='text-white link-underline link-underline-opacity-0'> + สร้างกระทู้ใหม่</a></button>";
+                if(!($_SESSION['role'] == "b")){
+                    echo "<button type='button' class='btn btn-success' style='float:right;'><a href = 'newpost.php' class ='text-white link-underline link-underline-opacity-0'> + สร้างกระทู้ใหม่</a></button>";
+                }
             }
             ?>
 
@@ -95,7 +97,7 @@
         <table class="table table-striped mt-3">
             <?php
             $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8", "root", "");
-            $sql = "SELECT t3.name,t1.title,t1.id,t2.login,t1.post_date,t1.cat_id,t1.user_id FROM post as t1 INNER JOIN user as t2 on (t1.user_id = t2.id) INNER JOIN category as t3 on (t1.cat_id = t3.id) ORDER BY t1.post_date DESC";
+            $sql = "SELECT t3.name,t1.title,t1.id,t2.login,t1.post_date,t1.cat_id,t1.user_id,t2.role FROM post as t1 INNER JOIN user as t2 on (t1.user_id = t2.id) INNER JOIN category as t3 on (t1.cat_id = t3.id) ORDER BY t1.post_date DESC";
             $result = $conn->query($sql);
 
             while ($row = $result->fetch()) {
@@ -112,15 +114,17 @@
                         echo "</td></tr>";
                     }
                 } else {
-                    echo "<tr><td>";
-                    if (isset($_SESSION['id']) && $_SESSION['role'] == 'a') {
-                        echo "<button onclick='delete_post($row[2])' type='button' class='btn btn-danger me-1 mt-1 align-self-center' style='float:right;'><a class = 'text-white'><i class='bi bi-trash'></i></a></button>";
-                    } elseif (isset($_SESSION['id']) && $_SESSION['user_id'] == $row[6]) {
-                        echo "<button onclick='delete_post($row[2])' type='button' class='btn btn-danger me-1 mt-1 align-self-center' style='float:right;'><a class = 'text-white'><i class='bi bi-trash'></i></a></button>";
-                        echo "<button onclick='edit_post($row[2])' type='button' class='btn btn-warning me-2 mt-1 align-self-center' style='float:right;'><a class = 'text-dark'><i class='bi bi-pencil-fill'></i></a></button>";
+                    if (!($row[7] == 'b')) {
+                        echo "<tr><td>";
+                        if (isset($_SESSION['id']) && $_SESSION['role'] == 'a') {
+                            echo "<button onclick='delete_post($row[2])' type='button' class='btn btn-danger me-1 mt-1 align-self-center' style='float:right;'><a class = 'text-white'><i class='bi bi-trash'></i></a></button>";
+                        } elseif (isset($_SESSION['id']) && $_SESSION['user_id'] == $row[6]) {
+                            echo "<button onclick='delete_post($row[2])' type='button' class='btn btn-danger me-1 mt-1 align-self-center' style='float:right;'><a class = 'text-white'><i class='bi bi-trash'></i></a></button>";
+                            echo "<button onclick='edit_post($row[2])' type='button' class='btn btn-warning me-2 mt-1 align-self-center' style='float:right;'><a class = 'text-dark'><i class='bi bi-pencil-fill'></i></a></button>";
+                        }
+                        echo "[ $row[0] ] <a href ='post.php?id=$row[2]' style = text-decoration:none>$row[1]</a><br>$row[3] - $row[4]";
+                        echo "</td></tr>";
                     }
-                    echo "[ $row[0] ] <a href ='post.php?id=$row[2]' style = text-decoration:none>$row[1]</a><br>$row[3] - $row[4]";
-                    echo "</td></tr>";
                 }
             ?>
                 <script>

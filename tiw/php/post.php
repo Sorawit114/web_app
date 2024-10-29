@@ -64,19 +64,21 @@
 
         <?php
         $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8", "root", "");
-        $sql = "SELECT t1.id, t1.content, t2.login, t1.post_date FROM comment as t1 INNER JOIN user as t2 on (t1.user_id = t2.id) where t1.post_id = $_GET[id]";
+        $sql = "SELECT t1.id, t1.content, t2.login, t1.post_date, t2.role FROM comment as t1 INNER JOIN user as t2 on (t1.user_id = t2.id) where t1.post_id = $_GET[id]";
         $result = $conn->query($sql);
         $A = 1;
         while ($row = $result->fetch()) {
-            echo "<div class = 'card border-info mt-3 col-sm-10 col-md-8 col-lg-4 mx-auto'>";
-            echo "<div class = 'card-header bg-info text-white'> ความเห็นที่ $A </div>";
-            echo "<div class = 'card-body'> $row[1]";
-            echo "<div class = 'mt-2'> $row[2] - $row[3]</div></div></div>";
-            $A++;
+            if (!($row[4] == "b")) {
+                echo "<div class = 'card border-info mt-3 col-sm-10 col-md-8 col-lg-4 mx-auto'>";
+                echo "<div class = 'card-header bg-info text-white'> ความเห็นที่ $A </div>";
+                echo "<div class = 'card-body'> $row[1]";
+                echo "<div class = 'mt-2'> $row[2] - $row[3]</div></div></div>";
+                $A++;
+            }
         }
-        $conn = null;
         ?>
-
+        <?php
+        if(!($_SESSION['role'] == "b")){?>
         <div class="card text-dark bg-white-bordersuccess col-sm-10 col-md-8 col-lg-4 mx-auto mt-3">
             <div class="card-header bg-success text-white"> แสดงความเห็น </div>
             <div class="card-body">
@@ -99,6 +101,9 @@
                 </form>
             </div>
         </div>
+        <?php
+        }
+        ?>
     </div>
 
 </body>
