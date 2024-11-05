@@ -54,21 +54,20 @@
             <label for="">หมวดหมู่</label>
             <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <?php
-                if (!isset($_GET['id'])) {
-                    echo "--ทั้งหมด--";
-                } elseif ($_GET['id'] == 1) {
-                    echo "เรื่องทั่วไป";
-                } elseif ($_GET['id'] == 2) {
-                    echo "เรื่องเรียน";
-                } elseif ($_GET['id'] == 3) {
-                    echo "เรื่องกีฬา";
+                $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8", "root", "");
+                $sql = "SELECT * FROM category";
+                foreach ($conn->query($sql) as $row){
+                    if (!isset($_GET['id'])) {
+                        echo "--ทั้งหมด--";
+                        break;
+                    } elseif ($_GET['id'] == $row['id']) {
+                        echo "$row[name]";
+                    }
                 }
                 ?>
             </button>
             <ul class="dropdown-menu">
                 <?php
-                $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8", "root", "");
-                $sql = "SELECT * FROM category";
                 if (isset($_GET['id'])) {
                     echo "<li><a class= dropdown-item href = index.php </a>--ทั้งหมด--</li>";
                 }
@@ -102,22 +101,30 @@
 
             while ($row = $result->fetch()) {
                 if (isset($_GET['id'])) {
-                    if ($_GET['id'] == $row[5]) {
-                        echo "<tr><td>";
-                        if (isset($_SESSION['id']) && $_SESSION['role'] == 'a') {
-                            echo "<button onclick='delete_post($row[2])' type='button' class='btn btn-danger me-1 mt-1 align-self-center' style='float:right;'><a class = 'text-white'><i class='bi bi-trash'></i></a></button>";
-                        } elseif (isset($_SESSION['id']) && $_SESSION['user_id'] == $row[6]) {
-                            echo "<button onclick='delete_post($row[2])' type='button' class='btn btn-danger me-1 mt-1 align-self-center' style='float:right;'><a class = 'text-white'><i class='bi bi-trash'></i></a></button>";
-                            echo "<button onclick='edit_post($row[2])' type='button' class='btn btn-warning me-2 mt-1 align-self-center' style='float:right;'><a class = 'text-dark'><i class='bi bi-pencil-fill'></i></a></button>";
+                    if (!($row[7] == 'b')){
+                        if ($_GET['id'] == $row[5]) {
+                            echo "<tr><td>";
+                            if (isset($_SESSION['id']) && $_SESSION['role'] == 'a') {
+                                echo "<button onclick='delete_post($row[2])' type='button' class='btn btn-danger me-1 mt-1 align-self-center' style='float:right;'><a class = 'text-white'><i class='bi bi-trash'></i></a></button>";
+                                if($_SESSION['user_id'] == $row[6]){
+                                    echo "<button onclick='edit_post($row[2])' type='button' class='btn btn-warning me-2 mt-1 align-self-center' style='float:right;'><a class = 'text-dark'><i class='bi bi-pencil-fill'></i></a></button>";
+                                }
+                            } elseif (isset($_SESSION['id']) && $_SESSION['user_id'] == $row[6]) {
+                                echo "<button onclick='delete_post($row[2])' type='button' class='btn btn-danger me-1 mt-1 align-self-center' style='float:right;'><a class = 'text-white'><i class='bi bi-trash'></i></a></button>";
+                                echo "<button onclick='edit_post($row[2])' type='button' class='btn btn-warning me-2 mt-1 align-self-center' style='float:right;'><a class = 'text-dark'><i class='bi bi-pencil-fill'></i></a></button>";
+                            }
+                            echo "[ $row[0] ] <a href ='post.php?id=$row[2]' style = text-decoration:none>$row[1]</a><br>$row[3] - $row[4]";
+                            echo "</td></tr>";
                         }
-                        echo "[ $row[0] ] <a href ='post.php?id=$row[2]' style = text-decoration:none>$row[1]</a><br>$row[3] - $row[4]";
-                        echo "</td></tr>";
                     }
                 } else {
                     if (!($row[7] == 'b')) {
                         echo "<tr><td>";
                         if (isset($_SESSION['id']) && $_SESSION['role'] == 'a') {
                             echo "<button onclick='delete_post($row[2])' type='button' class='btn btn-danger me-1 mt-1 align-self-center' style='float:right;'><a class = 'text-white'><i class='bi bi-trash'></i></a></button>";
+                            if($_SESSION['user_id'] == $row[6]){
+                                echo "<button onclick='edit_post($row[2])' type='button' class='btn btn-warning me-2 mt-1 align-self-center' style='float:right;'><a class = 'text-dark'><i class='bi bi-pencil-fill'></i></a></button>";
+                            }
                         } elseif (isset($_SESSION['id']) && $_SESSION['user_id'] == $row[6]) {
                             echo "<button onclick='delete_post($row[2])' type='button' class='btn btn-danger me-1 mt-1 align-self-center' style='float:right;'><a class = 'text-white'><i class='bi bi-trash'></i></a></button>";
                             echo "<button onclick='edit_post($row[2])' type='button' class='btn btn-warning me-2 mt-1 align-self-center' style='float:right;'><a class = 'text-dark'><i class='bi bi-pencil-fill'></i></a></button>";

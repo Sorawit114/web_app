@@ -37,8 +37,8 @@
                         echo "<i class='bi bi-person-lines-fill'></i> $user";
                         echo "</a>";
                         echo "<ul class='dropdown-menu'>";
-                        echo "<li><a class='dropdown-item' href=''><i class='bi bi-bookmarks'></i>จัดการหมวดหมู่</a></li>";
-                        echo "<li><a class='dropdown-item' href=''><i class='bi bi-person-check'></i>จัดการผู้ใช้งาน</a></li>";
+                        echo "<li><a class='dropdown-item' href='category.php'><i class='bi bi-bookmarks'></i>จัดการหมวดหมู่</a></li>";
+                        echo "<li><a class='dropdown-item' href='user.php'><i class='bi bi-person-check'></i>จัดการผู้ใช้งาน</a></li>";
                         echo "<li><a class='dropdown-item' href='logout.php'><i class='bi bi-power'></i>ออกจากระบบ</a></li>";
                         echo "</ul>";
                         echo "</li>";
@@ -56,6 +56,9 @@
             }
             elseif($_SESSION['category'] == 'delete_success'){
                 echo "<div class='alert alert-success mt-3 col-sm-10 col-md-8 col-lg-7 mx-auto'>ลบหมวดหมู่เรียบร้อยแล้ว</div>";
+                unset($_SESSION['category']);
+            } elseif($_SESSION['category'] == 'add_success'){
+                echo "<div class='alert alert-success mt-3 col-sm-10 col-md-8 col-lg-7 mx-auto'>เพิ่มหมู่เรียบร้อยแล้ว</div>";
                 unset($_SESSION['category']);
             }
         }
@@ -95,10 +98,34 @@
             </table>
             <div class="col-lg-12">
                 <center>
-                    <button type="submit" class="btn btn-success btn-sm text-white">
+                    <button type="submit" class="btn btn-success btn-sm text-white" data-bs-toggle='modal' data-bs-target='#showForm2'>
                         <i class="bi bi-bookmark-plus mt-1">เพิ่มหมวดหมู่ใหม่</i>
                     </button>
                 </center>
+            </div>
+        </div>
+
+        <div class="modal fade" id="showForm2">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">แก้ไขหมวดหมู่</h5>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form action="category_save.php" method="post">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>ชื่อหมวดหมู่:</label>
+                                <input name="name-category" type="text" class="form-control">
+                                <input name="id-category" type="text" class="form-control d-none">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
